@@ -1,5 +1,10 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div class="home">
+    <div class="container">
+      <br />"Rien de grand ne s'est accomplis sans passion - Hegel<br /><br />
+      <div class="home-img">
+        <router-link to="/contact"><img src="../assets/romain.jpg" /></router-link>
+      </div>
+    </div>
   </div>
 </template>

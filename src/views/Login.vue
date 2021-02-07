@@ -1,0 +1,54 @@
+<template>
+  <div class="container">
+    <br />
+    <br />
+
+    <form @submit.prevent="userLogin">
+      <h3>Se Connecter</h3>
+
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" class="form-control form-control-lg" v-model="user.email" />
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input
+          type="password"
+          class="form-control form-control-lg"
+          v-model="user.password"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-dark btn-lg btn-block">Se Connecter</button>
+    </form>
+  </div>
+</template>
+
+<script>
+import firebase from "firebase";
+
+export default {
+  data() {
+    return {
+      user: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    userLogin() {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.user.email, this.user.password)
+        .then(() => {
+          this.$router.push("/admin");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    },
+  },
+};
+</script>
