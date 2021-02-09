@@ -74,6 +74,7 @@
       <h1>Le Marly de Romain</h1>
       <h4>Depuis 2014</h4>
       <router-view />
+      <br /><br />
     </div>
     <!-- footer-->
     <nav navbar-expand-lg class="navbar navbar-bottom fixed-bottom navbar-foot">

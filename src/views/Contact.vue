@@ -7,6 +7,15 @@
         &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <form id="contact_form" v-on:submit.prevent="addContact">
           <div class="form-group">
+            <label for="contactAide">Accompagnent souhaité</label>
+            <select class="form-control" id="contactAide" v-model="contact.aide" required>
+              <option>Je souhaite acheter un bien</option>
+              <option>Je souhaite vendre mon bien</option>
+              <option>Je souhaite estimer mon bien</option>
+              <option>Je souhaite simplement quelques renseignements</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label for="contactEMail">Votre Email (Pour vous recontacter))</label>
             <input
               type="email"
@@ -18,26 +27,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="contactAide">Aide Souhaitée</label>
-            <select class="form-control" id="contactAide" v-model="contact.aide" required>
-              <option>Reconversion</option>
-              <option>Coaching</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="contactDomaine">Domaine</label>
-            <select
-              class="form-control"
-              id="contactDomaine"
-              v-model="contact.domaine"
-              required
-            >
-              <option>Commercial</option>
-              <option>Programmation</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="contactComment">Dites nous en plus :</label>
+            <label for="contactComment">Messages :</label>
             <textarea
               class="form-control"
               id="contactComment"
@@ -70,11 +60,10 @@ export default {
         .add(this.contact)
         .then(() => {
           alert(
-            "Merci pour votre demande! Nous tenterons de vous recontacter dans les plus brefs délais."
+            "Merci pour votre demande! \n Nous tenterons de vous recontacter dans les plus brefs délais."
           );
           this.contact.email = "";
           this.contact.aide = "";
-          this.contact.domaine = "";
           this.contact.commentaire = "";
         })
         .catch((error) => {
