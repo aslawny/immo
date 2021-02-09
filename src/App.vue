@@ -32,6 +32,13 @@
             </li>
             <li
               class="nav-item"
+              v-on:click="setActive('hono')"
+              :class="{ active: isActive('hono') }"
+            >
+              <router-link class="nav-link" to="/hono">Honoraires</router-link>
+            </li>
+            <li
+              class="nav-item"
               v-on:click="setActive('contact')"
               :class="{ active: isActive('contact') }"
             >

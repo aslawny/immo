@@ -1,8 +1,9 @@
 <template>
   <div class="home">
     <div class="container">
-      <br />" Crois que tu y arriveras et tu seras à mi-chemin." &nbsp;&nbsp; Théodore
-      Roosevelt<br />
+      <br />
+      <h4>N'hésitez pas à me contacter au <br />06.80.35.79.16</h4>
+      <br />
       <div class="home-img">
         &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <form id="contact_form" v-on:submit.prevent="addContact">
