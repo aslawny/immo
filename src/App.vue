@@ -84,7 +84,7 @@
     <nav navbar-expand-lg class="navbar navbar-bottom fixed-bottom navbar-foot">
       <ul class="navbar-footer-center navbar-nav mr-auto text-center">
         <li class="nav-item">
-          <a v-if="admin" class="navbar-brand" href=""> Welcome >{{ login }}</a>
+          <a v-if="admin" class="navbar-brand" href=""> Welcome {{ login }}</a>
           <router-link v-else to="/login">Copyright 2021</router-link>
         </li>
       </ul>
