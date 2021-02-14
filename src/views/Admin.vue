@@ -15,8 +15,7 @@
         <thead>
           <tr>
             <th>Email</th>
-            <th>Type d'aide</th>
-            <th>Reconversion</th>
+            <th>Accompagnent</th>
             <th>Commentaire</th>
             <th>Statut</th>
             <th>Actions</th>
@@ -26,7 +25,6 @@
           <tr v-for="contact in contacts" :key="contact.key">
             <td>{{ contact.email }}</td>
             <td>{{ contact.aide }}</td>
-            <td>{{ contact.domaine }}</td>
             <td>{{ contact.commentaire }}</td>
             <td>{{ contact.statut }}</td>
             <td>

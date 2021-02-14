@@ -8,22 +8,12 @@
           <input type="email" class="form-control" v-model="contact.email" required />
         </div>
         <div class="form-group">
-          <label>Aide</label>
+          <label>Accompagnent souhaité</label>
           <select class="form-control" id="contactAide" v-model="contact.aide" required>
-            <option>Reconversion</option>
-            <option>Coaching</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Domaine</label>
-          <select
-            class="form-control"
-            id="contactDomaine"
-            v-model="contact.domaine"
-            required
-          >
-            <option>Commercial</option>
-            <option>Programmation</option>
+            <option>Je souhaite acheter un bien</option>
+            <option>Je souhaite vendre mon bien</option>
+            <option>Je souhaite estimer mon bien</option>
+            <option>Je souhaite simplement quelques renseignements</option>
           </select>
         </div>
         <div class="form-group">

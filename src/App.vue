@@ -50,7 +50,17 @@
               v-on:click="setActive('admin')"
               :class="{ active: isActive('admin') }"
             >
-              <router-link class="nav-link" to="/admin">Admin</router-link>
+              <router-link class="nav-link" to="/admin">Gérer Contacts</router-link>
+            </li>
+            <li
+              v-if="admin"
+              class="nav-item"
+              v-on:click="setActive('adminAnnonces')"
+              :class="{ active: isActive('adminAnnonces') }"
+            >
+              <router-link class="nav-link" to="/adminAnnonces"
+                >Gérer Annonces</router-link
+              >
             </li>
             <li
               v-if="admin"
