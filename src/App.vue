@@ -55,6 +55,16 @@
             <li
               v-if="admin"
               class="nav-item"
+              v-on:click="setActive('addAnnonces')"
+              :class="{ active: isActive('addAnnonces') }"
+            >
+              <router-link class="nav-link" to="/addAnnonces"
+                >Ajouter Annonces</router-link
+              >
+            </li>
+            <li
+              v-if="admin"
+              class="nav-item"
               v-on:click="setActive('adminAnnonces')"
               :class="{ active: isActive('adminAnnonces') }"
             >

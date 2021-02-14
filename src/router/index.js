@@ -3,6 +3,8 @@ import Home from "@/views/Home.vue";
 import Contact from "@/views/Contact.vue";
 import ContactEdit from "@/views/ContactEdit.vue";
 import Admin from "@/views/Admin.vue";
+import AdminAnnonces from "@/views/AdminAnnonces.vue";
+import AddAnnonces from "@/views/AddAnnonces.vue";
 import About from "@/views/About.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
@@ -22,6 +24,16 @@ const routes = [{
         path: "/admin",
         name: "Admin",
         component: Admin,
+    },
+    {
+        path: "/adminAnnonces",
+        name: "AdminAnnonces",
+        component: AdminAnnonces,
+    },
+    {
+        path: "/addAnnonces",
+        name: "AddAnnonces",
+        component: AddAnnonces,
     },
     {
         path: "/login",
