@@ -23,6 +23,7 @@
             <th>Equipement</th>
             <th>Energie / GES</th>
             <th>Statut</th>
+             <th>Edit/Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -41,13 +42,13 @@
             <td>{{ annonce.statut }}</td>
             <td>
               <router-link
-                :to="{ name: 'edit', params: { id: annonce.key } }"
+                :to="{ name: 'editAnno', params: { id: annonce.key } }"
                 class="btn btn-primary"
                 >Edit
               </router-link>
 
               <button
-                @click.prevent="deleteannonce(annonce.key)"
+                @click.prevent="deleteAnnonce(annonce.key)"
                 class="btn btn-danger"
               >
                 Delete
@@ -111,7 +112,7 @@ export default {
         this.originalAnnonce = this.annonces;
       });
     },
-    deleteannonce(id) {
+    deleteAnnonce(id) {
       if (window.confirm("Do you really want to delete?")) {
         db.collection("annonces")
           .doc(id)
