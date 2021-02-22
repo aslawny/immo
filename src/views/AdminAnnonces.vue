@@ -22,13 +22,22 @@
             <th>Descriptif</th>
             <th>Equipement</th>
             <th>Energie / GES</th>
+            <th>Statut</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="annonce in annonces" :key="annonce.key">
-            <td>{{ annonce.email }}</td>
-            <td>{{ annonce.aide }}</td>
+            <td>{{ annonce.av }}</td>
+            <td>{{ annonce.maison }} / {{ annonce.annee }}</td>
+            <td>{{ annonce.prix }} €</td>
+            <td>{{ annonce.cp }}  {{ annonce.ville }}</td>
+            <td>
+              {{ annonce.surface }} m²/ {{ annonce.pieces }} pièces/
+              {{ annonce.chambres }} chambres
+            </td>
             <td>{{ annonce.commentaire }}</td>
+            <td>{{ annonce.equipement }}</td>
+            <td>{{ annonce.energie }} / {{ annonce.ges }}</td>
             <td>{{ annonce.statut }}</td>
             <td>
               <router-link
@@ -37,7 +46,10 @@
                 >Edit
               </router-link>
 
-              <button @click.prevent="deleteannonce(annonce.key)" class="btn btn-danger">
+              <button
+                @click.prevent="deleteannonce(annonce.key)"
+                class="btn btn-danger"
+              >
                 Delete
               </button>
             </td>
@@ -60,7 +72,7 @@ export default {
   data() {
     return {
       annonces: [],
-      originalannonce: [],
+      originalAnnonce: [],
       annonceSearch: "",
       admin: false,
       user: "",
@@ -70,25 +82,33 @@ export default {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.admin = true;
-        this.fetchannonce();
+        this.fetchAnnonce();
       }
     });
   },
   methods: {
-    fetchannonce: function () {
+    fetchAnnonce: function () {
       db.collection("annonces").onSnapshot((snapshotChange) => {
         this.annonces = [];
         snapshotChange.forEach((doc) => {
           this.annonces.push({
             key: doc.id,
-            email: doc.data().email,
-            aide: doc.data().aide,
-            domaine: doc.data().domaine,
+            av: doc.data().av,
             commentaire: doc.data().commentaire,
+            annee: doc.data().annee,
+            prix: doc.data().prix,
+            maison: doc.data().maison,
+            cp: doc.data().cp,
+            ville: doc.data().ville,
+            surface: doc.data().surface,
+            chambres: doc.data().chambres,
+            equipement: doc.data().equipement,
+            energie: doc.data().energie,
+            ges: doc.data().ges,
             statut: doc.data().statut,
           });
         });
-        this.originalannonce = this.annonces;
+        this.originalAnnonce = this.annonces;
       });
     },
     deleteannonce(id) {
@@ -106,34 +126,36 @@ export default {
     },
     searchannonce: function () {
       if (this.annonceSearch == "") {
-        this.annonces = this.originalannonce;
-        this.fetchannonce();
+        this.annonces = this.originalAnnonce;
+        this.fetchAnnonce();
       }
-      var searchedannonce = [];
-      for (var i = 0; i < this.originalannonce.length; i++) {
-        var annonceEMail = this.originalannonce[i]["email"].toLowerCase();
-        var annonceStatut = this.originalannonce[i]["statut"].toLowerCase();
-        var annonceAide = this.originalannonce[i]["aide"].toLowerCase();
-        var annonceDomaine = this.originalannonce[i]["domaine"].toLowerCase();
-        var annonceCommentaire = this.originalannonce[i]["commentaire"].toLowerCase();
+      var searchedAnnonce = [];
+      for (var i = 0; i < this.originalAnnonce.length; i++) {
+        var annonceEqpt = this.originalAnnonce[i]["equipement"].toLowerCase();
+        var annonceStatut = this.originalAnnonce[i]["statut"].toLowerCase();
+        var annonceVille = this.originalAnnonce[i]["ville"].toLowerCase();
+        var annonceSurface = this.originalAnnonce[i]["surface"].toLowerCase();
+        var annonceCommentaire = this.originalAnnonce[i][
+          "commentaire"
+        ].toLowerCase();
 
-        if (annonceEMail.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
-          searchedannonce.push(this.originalannonce[i]);
+        if (annonceEqpt.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
         }
         if (annonceStatut.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
-          searchedannonce.push(this.originalannonce[i]);
+          searchedAnnonce.push(this.originalAnnonce[i]);
         }
-        if (annonceAide.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
-          searchedannonce.push(this.originalannonce[i]);
+        if (annonceVille.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
         }
-        if (annonceDomaine.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
-          searchedannonce.push(this.originalannonce[i]);
+        if (annonceSurface.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
         }
         if (annonceCommentaire.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
-          searchedannonce.push(this.originalannonce[i]);
+          searchedAnnonce.push(this.originalAnnonce[i]);
         }
       }
-      this.annonces = searchedannonce;
+      this.annonces = searchedAnnonce;
     },
   },
 };
