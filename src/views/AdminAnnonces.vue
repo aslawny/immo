@@ -5,36 +5,39 @@
         <input
           type="text"
           name="search"
-          v-model="contactSearch"
-          placeholder="Search Contact"
+          v-model="annonceSearch"
+          placeholder="Search annonce"
           class="form-control"
-          v-on:keyup="searchContact"
+          v-on:keyup="searchannonce"
         />
       </div>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Email</th>
-            <th>Accompagnent</th>
-            <th>Commentaire</th>
-            <th>Statut</th>
-            <th>Actions</th>
+            <th>Achat/Vente</th>
+            <th>Maison/Appt Année</th>
+            <th>Prix</th>
+            <th>CP Ville</th>
+            <th>Surface Pieces Chbres</th>
+            <th>Descriptif</th>
+            <th>Equipement</th>
+            <th>Energie / GES</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="contact in contacts" :key="contact.key">
-            <td>{{ contact.email }}</td>
-            <td>{{ contact.aide }}</td>
-            <td>{{ contact.commentaire }}</td>
-            <td>{{ contact.statut }}</td>
+          <tr v-for="annonce in annonces" :key="annonce.key">
+            <td>{{ annonce.email }}</td>
+            <td>{{ annonce.aide }}</td>
+            <td>{{ annonce.commentaire }}</td>
+            <td>{{ annonce.statut }}</td>
             <td>
               <router-link
-                :to="{ name: 'edit', params: { id: contact.key } }"
+                :to="{ name: 'edit', params: { id: annonce.key } }"
                 class="btn btn-primary"
                 >Edit
               </router-link>
 
-              <button @click.prevent="deleteContact(contact.key)" class="btn btn-danger">
+              <button @click.prevent="deleteannonce(annonce.key)" class="btn btn-danger">
                 Delete
               </button>
             </td>
@@ -56,9 +59,9 @@ import firebase from "firebase";
 export default {
   data() {
     return {
-      contacts: [],
-      originalContact: [],
-      contactSearch: "",
+      annonces: [],
+      originalannonce: [],
+      annonceSearch: "",
       admin: false,
       user: "",
     };
@@ -67,16 +70,16 @@ export default {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.admin = true;
-        this.fetchContact();
+        this.fetchannonce();
       }
     });
   },
   methods: {
-    fetchContact: function () {
-      db.collection("contacts").onSnapshot((snapshotChange) => {
-        this.contacts = [];
+    fetchannonce: function () {
+      db.collection("annonces").onSnapshot((snapshotChange) => {
+        this.annonces = [];
         snapshotChange.forEach((doc) => {
-          this.contacts.push({
+          this.annonces.push({
             key: doc.id,
             email: doc.data().email,
             aide: doc.data().aide,
@@ -85,52 +88,52 @@ export default {
             statut: doc.data().statut,
           });
         });
-        this.originalContact = this.contacts;
+        this.originalannonce = this.annonces;
       });
     },
-    deleteContact(id) {
+    deleteannonce(id) {
       if (window.confirm("Do you really want to delete?")) {
-        db.collection("contacts")
+        db.collection("annonces")
           .doc(id)
           .delete()
           .then(() => {
-            console.log("Contact deleted!");
+            console.log("annonce deleted!");
           })
           .catch((error) => {
             console.error(error);
           });
       }
     },
-    searchContact: function () {
-      if (this.contactSearch == "") {
-        this.contacts = this.originalContact;
-        this.fetchContact();
+    searchannonce: function () {
+      if (this.annonceSearch == "") {
+        this.annonces = this.originalannonce;
+        this.fetchannonce();
       }
-      var searchedContact = [];
-      for (var i = 0; i < this.originalContact.length; i++) {
-        var contactEMail = this.originalContact[i]["email"].toLowerCase();
-        var contactStatut = this.originalContact[i]["statut"].toLowerCase();
-        var contactAide = this.originalContact[i]["aide"].toLowerCase();
-        var contactDomaine = this.originalContact[i]["domaine"].toLowerCase();
-        var contactCommentaire = this.originalContact[i]["commentaire"].toLowerCase();
+      var searchedannonce = [];
+      for (var i = 0; i < this.originalannonce.length; i++) {
+        var annonceEMail = this.originalannonce[i]["email"].toLowerCase();
+        var annonceStatut = this.originalannonce[i]["statut"].toLowerCase();
+        var annonceAide = this.originalannonce[i]["aide"].toLowerCase();
+        var annonceDomaine = this.originalannonce[i]["domaine"].toLowerCase();
+        var annonceCommentaire = this.originalannonce[i]["commentaire"].toLowerCase();
 
-        if (contactEMail.indexOf(this.contactSearch.toLowerCase()) >= 0) {
-          searchedContact.push(this.originalContact[i]);
+        if (annonceEMail.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedannonce.push(this.originalannonce[i]);
         }
-        if (contactStatut.indexOf(this.contactSearch.toLowerCase()) >= 0) {
-          searchedContact.push(this.originalContact[i]);
+        if (annonceStatut.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedannonce.push(this.originalannonce[i]);
         }
-        if (contactAide.indexOf(this.contactSearch.toLowerCase()) >= 0) {
-          searchedContact.push(this.originalContact[i]);
+        if (annonceAide.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedannonce.push(this.originalannonce[i]);
         }
-        if (contactDomaine.indexOf(this.contactSearch.toLowerCase()) >= 0) {
-          searchedContact.push(this.originalContact[i]);
+        if (annonceDomaine.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedannonce.push(this.originalannonce[i]);
         }
-        if (contactCommentaire.indexOf(this.contactSearch.toLowerCase()) >= 0) {
-          searchedContact.push(this.originalContact[i]);
+        if (annonceCommentaire.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedannonce.push(this.originalannonce[i]);
         }
       }
-      this.contacts = searchedContact;
+      this.annonces = searchedannonce;
     },
   },
 };
