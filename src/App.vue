@@ -32,10 +32,10 @@
             </li>
             <li
               class="nav-item"
-              v-on:click="setActive('hono')"
-              :class="{ active: isActive('hono') }"
+              v-on:click="setActive('pricing')"
+              :class="{ active: isActive('pricing') }"
             >
-              <router-link class="nav-link" to="/hono">Honoraires</router-link>
+              <router-link class="nav-link" to="/pricing">Honoraires</router-link>
             </li>
             <li
               class="nav-item"

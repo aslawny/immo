@@ -6,6 +6,7 @@ import Admin from "@/views/Admin.vue";
 import AdminAnnonces from "@/views/AdminAnnonces.vue";
 import AddAnnonces from "@/views/AddAnnonces.vue";
 import About from "@/views/About.vue";
+import Pricing from "@/views/Pricing.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
 import NotFound from "@/views/NotFound.vue";
@@ -19,6 +20,11 @@ const routes = [{
         path: "/contact",
         name: "Contact",
         component: Contact,
+    },
+    {
+        path: "/pricing",
+        name: "Pricing",
+        component: Pricing,
     },
     {
         path: "/admin",
