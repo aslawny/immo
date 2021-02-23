@@ -1,15 +1,11 @@
 <template>
   <main>
     <div
-      class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light"
+      class="position-relative overflow-hidden p-1 p-md-5 m-md-1 text-center bg-light"
     >
-      <div class="col-md-5 p-lg-5 mx-auto my-5">
-        <h1 class="display-4 fw-normal">Punny headline</h1>
-        <p class="lead fw-normal">
-          And an even wittier subheading to boot. Jumpstart your marketing
-          efforts with this example based on Apple’s marketing pages.
-        </p>
-        <a class="btn btn-outline-secondary" href="#">Coming soon</a>
+      <div class="col-md-5 p-lg-1 mx-auto my-1">
+        <h1 class="display-4 fw-normal">Biens en Vente</h1>
+        <p class="lead fw-normal">{{ this.nbAnnonce }} Résultats</p>
       </div>
       <div class="product-device shadow-sm d-none d-md-block"></div>
       <div
@@ -19,17 +15,21 @@
 
     <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
       <div
-        class="bg-dark me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden"
+        v-for="annonce in annonces"
+        :key="annonce.key"
+
+        class="bg-dark text-white me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
       >
         <div class="my-3 py-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
+          <h2 class="display-5">{{ annonce.maison }} de {{ annonce.surface }} m² - {{ annonce.chambres }} chambres à {{ annonce.ville }}</h2>
+          <p class="lead">{{ annonce.chambres }} pièces à {{ annonce.prix }} </p>
         </div>
         <div
           class="bg-light shadow-sm mx-auto"
           style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
         ></div>
       </div>
+
       <div
         class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
       >
@@ -58,7 +58,7 @@
         ></div>
       </div>
       <div
-        class="bg-primary me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden"
+        class="bg-primary text-white me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
       >
         <div class="my-3 py-3">
           <h2 class="display-5">Another headline</h2>
@@ -66,60 +66,6 @@
         </div>
         <div
           class="bg-light shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
-        ></div>
-      </div>
-    </div>
-
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-      <div
-        class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
-      >
-        <div class="my-3 p-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div
-          class="bg-body shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
-        ></div>
-      </div>
-      <div
-        class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
-      >
-        <div class="my-3 py-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div
-          class="bg-body shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
-        ></div>
-      </div>
-    </div>
-
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-      <div
-        class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
-      >
-        <div class="my-3 p-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div
-          class="bg-body shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
-        ></div>
-      </div>
-      <div
-        class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
-      >
-        <div class="my-3 py-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div
-          class="bg-body shadow-sm mx-auto"
           style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
         ></div>
       </div>
@@ -128,7 +74,87 @@
 </template>
 
 
-    <style>
+<script>
+import { db } from "../firebaseDb";
+
+export default {
+  data() {
+    return {
+      annonces: [],
+      originalAnnonce: [],
+      annonceSearch: "",
+      user: "",
+      nbAnnonce: 0,
+    };
+  },
+  created() {
+    this.fetchAnnonce();
+  },
+  methods: {
+    fetchAnnonce: function () {
+      db.collection("annonces").onSnapshot((snapshotChange) => {
+        this.annonces = [];
+        snapshotChange.forEach((doc) => {
+          this.annonces.push({
+            key: doc.id,
+            av: doc.data().av,
+            commentaire: doc.data().commentaire,
+            annee: doc.data().annee,
+            prix: doc.data().prix,
+            maison: doc.data().maison,
+            cp: doc.data().cp,
+            ville: doc.data().ville,
+            surface: doc.data().surface,
+            chambres: doc.data().chambres,
+            equipement: doc.data().equipement,
+            energie: doc.data().energie,
+            ges: doc.data().ges,
+            statut: doc.data().statut,
+          });
+        });
+        this.nbAnnonce = this.annonces.length;
+        this.originalAnnonce = this.annonces;
+      });
+    },
+
+    searchannonce: function () {
+      if (this.annonceSearch == "") {
+        this.annonces = this.originalAnnonce;
+        this.fetchAnnonce();
+      }
+      var searchedAnnonce = [];
+      for (var i = 0; i < this.originalAnnonce.length; i++) {
+        var annonceEqpt = this.originalAnnonce[i]["equipement"].toLowerCase();
+        var annonceStatut = this.originalAnnonce[i]["statut"].toLowerCase();
+        var annonceVille = this.originalAnnonce[i]["ville"].toLowerCase();
+        var annonceSurface = this.originalAnnonce[i]["surface"].toLowerCase();
+        var annonceCommentaire = this.originalAnnonce[i][
+          "commentaire"
+        ].toLowerCase();
+
+        if (annonceEqpt.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
+        }
+        if (annonceStatut.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
+        }
+        if (annonceVille.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
+        }
+        if (annonceSurface.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
+        }
+        if (annonceCommentaire.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
+        }
+      }
+      this.annonces = searchedAnnonce;
+    },
+  },
+};
+</script>
+
+<style>
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -148,57 +174,26 @@
 }
 
 /*
- * Custom translucent site header
- */
-
-.site-header {
-  background-color: rgba(0, 0, 0, .85);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
-}
-.site-header a {
-  color: #8e8e8e;
-  transition: color .15s ease-in-out;
-}
-.site-header a:hover {
-  color: #fff;
-  text-decoration: none;
-}
-
-/*
  * Dummy devices (replace them with your own or something else entirely!)
  */
 
 .product-device {
   position: absolute;
   right: 10%;
-  bottom: -30%;
-  width: 300px;
-  height: 540px;
+  width: 150px;
+  height: 240px;
+  bottom: 0;
   background-color: #333;
   border-radius: 21px;
   transform: rotate(30deg);
 }
 
-.product-device::before {
-  position: absolute;
-  top: 10%;
-  right: 10px;
-  bottom: 10%;
-  left: 10px;
-  content: "";
-  background-color: rgba(255, 255, 255, .1);
-  border-radius: 5px;
-}
-
 .product-device-2 {
-  top: -25%;
   right: auto;
   bottom: 0;
   left: 5%;
   background-color: #e5e5e5;
 }
-
 
 /*
  * Extra utilities
@@ -212,5 +207,4 @@
     flex: 1;
   }
 }
-
 </style>
