@@ -8,6 +8,7 @@ import AdminAnnonces from "@/views/AdminAnnonces.vue";
 import AddAnnonces from "@/views/AddAnnonces.vue";
 import About from "@/views/About.vue";
 import Pricing from "@/views/Pricing.vue";
+import Annonces from "@/views/Annonces.vue";
 import Login from "@/views/Login.vue";
 import Logout from "@/views/Logout.vue";
 import NotFound from "@/views/NotFound.vue";
@@ -26,6 +27,11 @@ const routes = [{
     path: "/pricing",
     name: "Pricing",
     component: Pricing,
+},
+{
+    path: "/annonces",
+    name: "Annonces",
+    component: Annonces,
 },
 {
     path: "/admin",
