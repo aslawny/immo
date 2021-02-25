@@ -26,7 +26,7 @@
           :class="annonce.class2"
           style="width: 100%; height: 400px; border-radius: 21px 21px 0 0"
         >
-          <router-link to="/annonceDetail"
+          <router-link :to="{ name: 'annonceDetail', params: { id: annonce.key } }"
             ><img src="../assets/immo1.jpg" />&nbsp;&nbsp;<img
               src="../assets/immo2.jpg"
             />
