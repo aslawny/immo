@@ -1,78 +1,42 @@
 <template>
   <main>
-    <div
-      class="position-relative overflow-hidden p-1 p-md-5 m-md-1 text-center bg-light"
-    >
+    <div class="position-relative overflow-hidden p-1 p-md-5 m-md-1 text-center bg-light">
       <div class="col-md-5 p-lg-1 mx-auto my-1">
         <h1 class="display-4 fw-normal">Biens en Vente</h1>
         <p class="lead fw-normal">{{ this.nbAnnonce }} Résultats</p>
       </div>
       <div class="product-device shadow-sm d-none d-md-block"></div>
-      <div
-        class="product-device product-device-2 shadow-sm d-none d-md-block"
-      ></div>
+      <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
     </div>
 
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-      <div
-        v-for="annonce in annonces"
-        :key="annonce.key"
-
-        class="bg-dark text-white me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
-      >
+    <div
+      v-for="annonce in annonces"
+      :key="annonce.key"
+      class="d-md-flex flex-md-equal w-100 my-md-2 ps-md-3"
+    >
+      <div :class="annonce.class1">
         <div class="my-3 py-3">
-          <h2 class="display-5">{{ annonce.maison }} de {{ annonce.surface }} m² - {{ annonce.chambres }} chambres à {{ annonce.ville }}</h2>
-          <p class="lead">{{ annonce.chambres }} pièces à {{ annonce.prix }} </p>
+          <h2 class="display-5">
+            {{ annonce.maison }} de {{ annonce.surface }} m² -
+            {{ annonce.chambres }} chambres à {{ annonce.ville }}
+          </h2>
+          <p class="lead">{{ annonce.chambres }} pièces à {{ annonce.prix }}€</p>
         </div>
         <div
-          class="bg-light shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
-        ></div>
-      </div>
-
-      <div
-        class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
-      >
-        <div class="my-3 p-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
+          :class="annonce.class2"
+          style="width: 100%; height: 400px; border-radius: 21px 21px 0 0"
+        >
+          <router-link to="/annonceDetail"
+            ><img src="../assets/immo1.jpg" />&nbsp;&nbsp;<img
+              src="../assets/immo2.jpg"
+            />
+          </router-link>
         </div>
-        <div
-          class="bg-dark shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
-        ></div>
-      </div>
-    </div>
-
-    <div class="d-md-flex flex-md-equal w-100 my-md-3 ps-md-3">
-      <div
-        class="bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
-      >
-        <div class="my-3 p-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div
-          class="bg-dark shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
-        ></div>
-      </div>
-      <div
-        class="bg-primary text-white me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden"
-      >
-        <div class="my-3 py-3">
-          <h2 class="display-5">Another headline</h2>
-          <p class="lead">And an even wittier subheading.</p>
-        </div>
-        <div
-          class="bg-light shadow-sm mx-auto"
-          style="width: 80%; height: 300px; border-radius: 21px 21px 0 0"
-        ></div>
+        <br /><br />
       </div>
     </div>
   </main>
 </template>
-
 
 <script>
 import { db } from "../firebaseDb";
@@ -83,8 +47,11 @@ export default {
       annonces: [],
       originalAnnonce: [],
       annonceSearch: "",
-      user: "",
       nbAnnonce: 0,
+      itemId: 0,
+      showDiv: true,
+      class1: "",
+      class2: "",
     };
   },
   created() {
@@ -94,23 +61,43 @@ export default {
     fetchAnnonce: function () {
       db.collection("annonces").onSnapshot((snapshotChange) => {
         this.annonces = [];
+        this.itemId = 0;
         snapshotChange.forEach((doc) => {
-          this.annonces.push({
-            key: doc.id,
-            av: doc.data().av,
-            commentaire: doc.data().commentaire,
-            annee: doc.data().annee,
-            prix: doc.data().prix,
-            maison: doc.data().maison,
-            cp: doc.data().cp,
-            ville: doc.data().ville,
-            surface: doc.data().surface,
-            chambres: doc.data().chambres,
-            equipement: doc.data().equipement,
-            energie: doc.data().energie,
-            ges: doc.data().ges,
-            statut: doc.data().statut,
-          });
+          if (doc.data().statut == "A traiter") {
+            if (this.itemId % 2 == 0) {
+              this.class1 =
+                "bg-dark text-white me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden";
+              this.class2 =
+                "bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden";
+              this.showDiv = true;
+            } else {
+              this.class1 =
+                "bg-light me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden";
+              this.class2 =
+                "bg-dark text-white me-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center overflow-hidden";
+              this.showDiv = false;
+            }
+
+            this.itemId++;
+            this.annonces.push({
+              key: doc.id,
+              av: doc.data().av,
+              commentaire: doc.data().commentaire,
+              annee: doc.data().annee,
+              prix: doc.data().prix,
+              maison: doc.data().maison,
+              cp: doc.data().cp,
+              ville: doc.data().ville,
+              surface: doc.data().surface,
+              chambres: doc.data().chambres,
+              equipement: doc.data().equipement,
+              energie: doc.data().energie,
+              ges: doc.data().ges,
+              class1: this.class1,
+              class2: this.class2,
+              showDiv: this.showDiv,
+            });
+          }
         });
         this.nbAnnonce = this.annonces.length;
         this.originalAnnonce = this.annonces;
@@ -128,9 +115,7 @@ export default {
         var annonceStatut = this.originalAnnonce[i]["statut"].toLowerCase();
         var annonceVille = this.originalAnnonce[i]["ville"].toLowerCase();
         var annonceSurface = this.originalAnnonce[i]["surface"].toLowerCase();
-        var annonceCommentaire = this.originalAnnonce[i][
-          "commentaire"
-        ].toLowerCase();
+        var annonceCommentaire = this.originalAnnonce[i]["commentaire"].toLowerCase();
 
         if (annonceEqpt.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
           searchedAnnonce.push(this.originalAnnonce[i]);

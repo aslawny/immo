@@ -81,7 +81,7 @@ HomePage
         }
         
         .container {
-            width: 1200px;
+            width: 1400px;
             height: 550px;
             background: #f5efeb;
             @media (min-width: 1000px) {
