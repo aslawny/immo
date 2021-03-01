@@ -6,22 +6,31 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-12">
+          <br />
+          <h2>
+            {{ annonce.av }} {{ annonce.maison }} à {{ annonce.ville }} -
+            {{ annonce.chambres }} chambres
+          </h2>
+          <br />
           <img src="../assets/immo1.jpg" />
-          <h2>{{ annonce.av }} à {{ annonce.ville }} pour {{ annonce.prix }}€</h2>
-          <p>
-            {{ annonce.commentaire }}
-          </p>
+          <br />
+          <br />
+          <h3>Au prix de {{ annonce.prix }} €</h3>
+          <br />
         </div>
       </div>
-      <hr class="featurette-divider" />
-
       <div class="row featurette">
-        <div class="col-md-6">
+        <div class="col-sm">
           <p class="lead">
-            {{ annonce.equipement }}
+            Nombre de pièces : {{ annonce.pieces }}
+            <br />
+            Nombre de chambres : {{ annonce.chambres }}
+            <br />
+            Année de construction : 1970
+            <br />
           </p>
         </div>
-        <div class="col-md-6">
+        <div class="col-sm">
           <img src="../assets/immo2.jpg" />
         </div>
       </div>
@@ -29,37 +38,43 @@
       <hr class="featurette-divider" />
 
       <div class="row featurette">
-        <div class="col-md-6 order-md-2">
-          <p class="lead">
-            Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta
-            felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl
-            consectetur. Fusce dapibus, tellus ac cursus commodo.
-          </p>
-        </div>
-        <div class="col-md-6 order-md-1">
+        <div class="col-sm">
           <img src="../assets/immo3.jpg" />
         </div>
+        <div class="col-sm">
+          <p class="lead">
+            Descriptif : <br />
+            {{ annonce.commentaire }}
+          </p>
+        </div>
       </div>
 
       <hr class="featurette-divider" />
 
       <div class="row featurette">
-        <div class="col-md-6">
+        <div class="col-sm">
+          <p class="lead">
+            Equipement : <br />
+            {{ annonce.equipement }}
+          </p>
+        </div>
+        <div class="col-sm">
           <img src="../assets/immo4.jpg" />
         </div>
-        <div class="col-md-6">
-          <img src="../assets/immo5.jpg" />
-        </div>
       </div>
 
       <hr class="featurette-divider" />
 
       <div class="row featurette">
-        <div class="col-md-5">
-          <img src="../assets/immo6.jpg" />
+        <div class="col-sm">
+          <img src="../assets/immo5.jpg" />
         </div>
-        <div class="col-md-5">
-          <img src="../assets/immo7.jpg" />
+        <div class="col-sm">
+          <p class="lead">
+            Bilan Energetique :<br />
+            Consommation d'énérgie : {{ annonce.energie }} <br />
+            Emission de Gaz à effet de serre : {{ annonce.ges }}
+          </p>
         </div>
       </div>
 
