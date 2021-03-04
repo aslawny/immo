@@ -6,7 +6,7 @@
           type="text"
           name="search"
           v-model="contactSearch"
-          placeholder="Search Contact"
+          placeholder="Chercher Contact"
           class="form-control"
           v-on:keyup="searchContact"
         />

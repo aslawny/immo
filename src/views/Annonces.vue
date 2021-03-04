@@ -9,6 +9,18 @@
       <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
     </div>
 
+    <div>
+      <br />
+      <input
+        type="text"
+        name="search"
+        v-model="annonceSearch"
+        placeholder="Chercher Annonce"
+        class="form-control"
+        v-on:keyup="searchAnnonce"
+      />
+    </div>
+
     <div
       v-for="annonce in annonces"
       :key="annonce.key"
@@ -104,7 +116,7 @@ export default {
       });
     },
 
-    searchannonce: function () {
+    searchAnnonce: function () {
       if (this.annonceSearch == "") {
         this.annonces = this.originalAnnonce;
         this.fetchAnnonce();
@@ -112,15 +124,23 @@ export default {
       var searchedAnnonce = [];
       for (var i = 0; i < this.originalAnnonce.length; i++) {
         var annonceEqpt = this.originalAnnonce[i]["equipement"].toLowerCase();
-        var annonceStatut = this.originalAnnonce[i]["statut"].toLowerCase();
         var annonceVille = this.originalAnnonce[i]["ville"].toLowerCase();
         var annonceSurface = this.originalAnnonce[i]["surface"].toLowerCase();
         var annonceCommentaire = this.originalAnnonce[i]["commentaire"].toLowerCase();
+        var annonceam = this.originalAnnonce[i]["maison"].toLowerCase();
+        var annoncepieces = this.originalAnnonce[i]["pieces"].toLowerCase();
+        var annonceprix = this.originalAnnonce[i]["prix"].toLowerCase();
 
         if (annonceEqpt.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
           searchedAnnonce.push(this.originalAnnonce[i]);
         }
-        if (annonceStatut.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+        if (annonceprix.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
+        }
+        if (annonceam.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
+          searchedAnnonce.push(this.originalAnnonce[i]);
+        }
+        if (annoncepieces.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
           searchedAnnonce.push(this.originalAnnonce[i]);
         }
         if (annonceVille.indexOf(this.annonceSearch.toLowerCase()) >= 0) {
